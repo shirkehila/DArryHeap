@@ -63,11 +63,6 @@ class DAryHeap:
         self.max_heapify(1)
         return max_key
 
-    def get_number_of_levels(self):
-        d = self.d
-        n = self.heap_size
-        return floor(log((n - 1) * (d - 1) + 1, d))
-
     def get_children(self, i):
         possible_children_indices = [self.child(i, child_number) for child_number in range(1, self.d + 1)]
         return [child_index for child_index in possible_children_indices if child_index <= self.heap_size]
