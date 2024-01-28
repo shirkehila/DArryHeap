@@ -2,7 +2,7 @@ import argparse
 import json
 
 from d_ary_heap import DAryHeap
-from heap_exceptions import HeapUnderflowError
+from heap_exceptions import HeapUnderflowError, HeapIndexError, HeapOverflowError
 
 
 # Import your DAryHeap class and exceptions here
@@ -46,15 +46,18 @@ def main():
 
         elif choice == '2':
             new_key = float(input("Enter the key to insert: "))
-            heap.insert(new_key)
-            print("Key inserted successfully")
+            try:
+                heap.insert(new_key)
+                print("Key inserted successfully")
+            except HeapOverflowError as e:
+                print(f"Error: {e}")
 
         elif choice == '3':
             index_to_delete = int(input("Enter the index to delete: "))
             try:
                 heap.delete(index_to_delete)
                 print("Node deleted successfully")
-            except (ValueError, HeapUnderflowError) as e:
+            except (ValueError, HeapUnderflowError, HeapIndexError) as e:
                 print(f"Error: {e}")
 
         elif choice == '4':

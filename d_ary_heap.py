@@ -2,7 +2,7 @@ from random import uniform
 from typing import List
 from math import floor, log
 
-from heap_exceptions import HeapUnderflowError, HeapOverflowError
+from heap_exceptions import HeapUnderflowError, HeapOverflowError, HeapIndexError
 
 
 class DAryHeap:
@@ -61,7 +61,10 @@ class DAryHeap:
 
         :param i: Index of the node.
         :return: Key of the node.
+        :raises: HeapIndexError if the index is out the heap bounds
         """
+        if i > self.heap_size:
+            raise HeapIndexError
         return self.heap[i]
 
     def set_key(self, i: int, key: float) -> None:
