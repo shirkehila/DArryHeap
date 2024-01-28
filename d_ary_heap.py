@@ -1,13 +1,14 @@
 from typing import List
 from math import floor, log
 
-from heap_exceptions import HeapUnderflowError
+from heap_exceptions import HeapUnderflowError, HeapOverflowError
 
 
 class DAryHeap:
-    def __init__(self, d: int, keys: List[float],capacity: int=5000, should_build_heap: bool = True):
+    def __init__(self, d: int, keys: List[float], capacity: int = 5000, should_build_heap: bool = True):
         self.d = d
-        self.heap = [None] + keys
+        self.capacity = capacity
+        self.heap = [None] + keys + [None for _ in range(capacity - len(keys))]
         self.heap_size = len(keys)
         if should_build_heap:
             self.build_max_heap()
@@ -100,16 +101,11 @@ class DAryHeap:
             self.exchange(i, self.parent(i))
             i = self.parent(i)
 
-    def should_enlarge_array(self, needed_capacity: int) -> bool:
-        array_capacity = len(self.heap) - 1
-        return needed_capacity > array_capacity
-
     def insert(self, key):
-        if self.should_enlarge_array(needed_capacity=self.heap_size + 1):
-            self.heap.append(float('-inf'))
-        else:
-            self.set_key(self.heap_size + 1, float('-inf'))
+        if self.capacity < self.heap_size + 1:
+            raise HeapOverflowError
         self.heap_size += 1
+        self.set_key(self.heap_size, float('-inf'))
         self.heap_increase_key(self.heap_size, key)
 
 
