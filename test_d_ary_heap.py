@@ -1,6 +1,7 @@
 from random import uniform
 import pytest
 from d_ary_heap import DAryHeap
+from heap_exceptions import HeapOverflowError, HeapUnderflowError, HeapIndexError
 
 
 @pytest.fixture
@@ -64,3 +65,41 @@ def test_delete(random_max_heap):
     random_max_heap.delete(7)
     check_max_heap_property(random_max_heap, 1)
 
+
+def test_invalid_index_get_key(random_max_heap):
+    with pytest.raises(HeapIndexError):
+        random_max_heap.get_key(30)  # Attempt to access key at an invalid index, should raise HeapIndexError
+
+
+def test_heap_size_after_extract_max(random_max_heap):
+    initial_size = random_max_heap.heap_size
+    random_max_heap.extract_max()
+    assert random_max_heap.heap_size == initial_size - 1
+
+
+def test_invalid_heap_increase_key(not_heap):
+    with pytest.raises(ValueError):
+        not_heap.heap_increase_key(1, 0)  # Attempt to decrease the key, should raise ValueError
+
+
+def test_heap_size_maintenance(random_max_heap):
+    initial_size = random_max_heap.heap_size
+    random_max_heap.insert(42)
+    random_max_heap.insert(24)
+    random_max_heap.extract_max()
+    assert random_max_heap.heap_size == initial_size + 1
+
+
+def test_heap_overflow_exception():
+    with pytest.raises(HeapOverflowError):
+        DAryHeap(2, [1, 2, 3], capacity=3).insert(4)
+
+
+def test_heap_underflow_exception():
+    with pytest.raises(HeapUnderflowError):
+        DAryHeap(2, []).extract_max()
+
+
+def test_delete_from_empty_heap():
+    with pytest.raises(HeapIndexError):
+        DAryHeap(2, []).delete(1)
