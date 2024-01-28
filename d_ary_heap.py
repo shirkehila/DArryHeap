@@ -116,7 +116,8 @@ class DAryHeap:
         max_key: float = self.heap[1]
         self.heap[1] = self.heap[self.heap_size]
         self.heap_size -= 1
-        self.max_heapify(1)
+        if self.heap_size != 0:
+            self.max_heapify(1)
         return max_key
 
     def get_children(self, i: int) -> List[int]:
@@ -201,3 +202,8 @@ class DAryHeap:
         """
         self.heap_increase_key(index, float('inf'))
         self.extract_max()
+
+
+if __name__ == '__main__':
+    h = DAryHeap(1, [1])
+    h.extract_max()
