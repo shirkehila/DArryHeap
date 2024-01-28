@@ -1,3 +1,4 @@
+from random import uniform
 from typing import List
 from math import floor, log
 
@@ -108,14 +109,24 @@ class DAryHeap:
         self.set_key(self.heap_size, float('-inf'))
         self.heap_increase_key(self.heap_size, key)
 
+    def delete(self, index: int):
+        self.heap_increase_key(index, float('inf'))
+        self.extract_max()
+
 
 if __name__ == '__main__':
-    h = DAryHeap(3, [3 * n for n in range(1, 10 + 1)])
-    print(h)
-    m = h.extract_max()
-    print(f"m is: {m}")
-    print(h)
-    h.insert(28)
-    print(h)
-    h.insert(100)
-    print(h)
+    # h = DAryHeap(3, [3 * n for n in range(1, 10 + 1)])
+    # print(h)
+    # m = h.extract_max()
+    # print(f"m is: {m}")
+    # print(h)
+    # h.insert(28)
+    # print(h)
+    # h.insert(100)
+    # print(h)
+    random_float_array = [int(uniform(0, 100)) for _ in range(20)]
+    max_heap = DAryHeap(3, random_float_array)
+    print(max_heap)
+    max_heap.delete(5)
+    print(max_heap)
+

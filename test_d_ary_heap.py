@@ -58,3 +58,9 @@ def test_insert(random_max_heap):
 
 def test_array_size(random_max_heap):
     assert len(random_max_heap.heap) == random_max_heap.capacity + 1
+
+
+def test_delete(random_max_heap):
+    random_max_heap.delete(7)
+    check_max_heap_property(random_max_heap, 1)
+
