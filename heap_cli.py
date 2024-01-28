@@ -1,41 +1,33 @@
-import json
-
 from d_ary_heap import DAryHeap
 from heap_exceptions import HeapUnderflowError, HeapIndexError, HeapOverflowError
+from input_reader import read_input_from_file
 
 
-# Import your DAryHeap class and exceptions here
+def get_validated_choice():
+    while True:
+        choice = input("Enter your choice (1-5): ")
+        if choice.isdigit() and 1 <= int(choice) <= 5:
+            return choice
+        else:
+            print("Invalid choice. Please enter a number between 1 and 5.")
 
-def read_input_from_file(file_path):
-    try:
-        with open(file_path, 'r') as file:
-            data = json.load(file)
-            d = data.get('d')
-            keys = data.get('keys', [])
 
-            if not isinstance(keys, list):
-                raise ValueError("Error: 'keys' must be a list in the JSON file.")
+def get_validated_float_input(prompt):
+    while True:
+        user_input = input(prompt)
+        try:
+            return float(user_input)
+        except ValueError:
+            print("Invalid input. Please enter a valid float.")
 
-            if d < 1:
-                raise ValueError("Error: 'd' must be positive.")
 
-            if len(keys) > 5000:
-                raise ValueError("Error: There are more than 5000 values in 'keys'.")
-
-            # Check that all values in 'keys' are floats
-            if not all(isinstance(val, (int, float)) for val in keys):
-                raise ValueError("Error: All values in 'keys' must be floats.")
-
-            return d, keys
-    except FileNotFoundError:
-        print(f"Error: File not found - {file_path}")
-        exit(1)
-    except json.JSONDecodeError:
-        print(f"Error: Invalid JSON format in file - {file_path}")
-        exit(1)
-    except ValueError as e:
-        print(e)
-        exit(1)
+def get_validated_int_input(prompt):
+    while True:
+        user_input = input(prompt)
+        if user_input.isdigit():
+            return int(user_input)
+        else:
+            print("Invalid input. Please enter a valid integer.")
 
 
 def main():
@@ -53,7 +45,7 @@ def main():
         print("4. Print Heap")
         print("5. Exit")
 
-        choice = input("Enter your choice (1-5): ")
+        choice = get_validated_choice()
 
         if choice == '1':
             try:
@@ -63,7 +55,7 @@ def main():
                 print("Error: Heap is empty")
 
         elif choice == '2':
-            new_key = float(input("Enter the key to insert: "))
+            new_key = get_validated_float_input("Enter the key to insert: ")
             try:
                 heap.insert(new_key)
                 print("Key inserted successfully")
@@ -71,7 +63,7 @@ def main():
                 print(f"Error: {e}")
 
         elif choice == '3':
-            index_to_delete = int(input("Enter the index to delete: "))
+            index_to_delete = get_validated_int_input("Enter the index to delete: ")
             try:
                 heap.delete(index_to_delete)
                 print("Node deleted successfully")
@@ -84,9 +76,6 @@ def main():
         elif choice == '5':
             print("Exiting the program.")
             break
-
-        else:
-            print("Invalid choice. Please enter a number between 1 and 5.")
 
 
 if __name__ == "__main__":
