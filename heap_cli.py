@@ -30,6 +30,50 @@ def get_validated_int_input(prompt):
             print("Invalid input. Please enter a valid integer.")
 
 
+def cli_extract_max(heap):
+    try:
+        max_key = heap.extract_max()
+        print(f"Maximum key extracted: {max_key}")
+    except HeapUnderflowError:
+        print("Error: Heap is empty")
+
+
+def cli_insert(heap):
+    new_key = get_validated_float_input("Enter the key to insert: ")
+    try:
+        heap.insert(new_key)
+        print("Key inserted successfully")
+    except HeapOverflowError as e:
+        print(f"Error: {e}")
+
+
+def cli_delete(heap):
+    index_to_delete = get_validated_int_input("Enter the index to delete: ")
+    try:
+        heap.delete(index_to_delete)
+        print("Node deleted successfully")
+    except (ValueError, HeapUnderflowError, HeapIndexError) as e:
+        print(f"Error: {e}")
+
+
+def cli_print_heap(heap):
+    print(heap)
+
+
+def cli_exit_program(heap):
+    print("Exiting the program.")
+    exit(0)
+
+
+choice_functions = {
+    '1': cli_extract_max,
+    '2': cli_insert,
+    '3': cli_delete,
+    '4': cli_print_heap,
+    '5': cli_exit_program
+}
+
+
 def main():
     input_file_name = "input.json"
     d, keys = read_input_from_file(input_file_name)
@@ -47,35 +91,8 @@ def main():
 
         choice = get_validated_choice()
 
-        if choice == '1':
-            try:
-                max_key = heap.extract_max()
-                print(f"Maximum key extracted: {max_key}")
-            except HeapUnderflowError:
-                print("Error: Heap is empty")
-
-        elif choice == '2':
-            new_key = get_validated_float_input("Enter the key to insert: ")
-            try:
-                heap.insert(new_key)
-                print("Key inserted successfully")
-            except HeapOverflowError as e:
-                print(f"Error: {e}")
-
-        elif choice == '3':
-            index_to_delete = get_validated_int_input("Enter the index to delete: ")
-            try:
-                heap.delete(index_to_delete)
-                print("Node deleted successfully")
-            except (ValueError, HeapUnderflowError, HeapIndexError) as e:
-                print(f"Error: {e}")
-
-        elif choice == '4':
-            print(heap)
-
-        elif choice == '5':
-            print("Exiting the program.")
-            break
+        # Call the chosen function using the dictionary
+        choice_functions[choice](heap)
 
 
 if __name__ == "__main__":

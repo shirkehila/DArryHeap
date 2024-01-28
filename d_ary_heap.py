@@ -1,6 +1,5 @@
-from random import uniform
 from typing import List
-from math import floor, log
+from math import floor
 
 from heap_exceptions import HeapUnderflowError, HeapOverflowError, HeapIndexError
 
