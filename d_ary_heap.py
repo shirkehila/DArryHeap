@@ -17,7 +17,7 @@ class DAryHeap:
         """
         self.d: int = d
         self.capacity: int = capacity
-        # Using None for empty slots in the heap, with the actual keys starting from index 1
+        # Using None for empty slots in the heap array, with the actual keys starting from index 1
         self.heap: List[float] = [None] + keys + [None for _ in range(capacity - len(keys))]
         self.heap_size: int = len(keys)
         if should_build_heap:
