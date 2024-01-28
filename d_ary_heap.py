@@ -7,46 +7,46 @@ from heap_exceptions import HeapUnderflowError, HeapOverflowError
 
 class DAryHeap:
     def __init__(self, d: int, keys: List[float], capacity: int = 5000, should_build_heap: bool = True):
-        self.d = d
-        self.capacity = capacity
-        self.heap = [None] + keys + [None for _ in range(capacity - len(keys))]
-        self.heap_size = len(keys)
+        self.d: int = d
+        self.capacity: int = capacity
+        self.heap: List[float] = [None] + keys + [None for _ in range(capacity - len(keys))]
+        self.heap_size: int = len(keys)
         if should_build_heap:
             self.build_max_heap()
 
-    def build_max_heap(self):
-        d = self.d
-        n = self.heap_size
-        last_non_leaf_index = floor((n + d - 2) / d)
+    def build_max_heap(self) -> None:
+        d: int = self.d
+        n: int = self.heap_size
+        last_non_leaf_index: int = floor((n + d - 2) / d)
         for i in range(last_non_leaf_index, 0, -1):
             self.max_heapify(i)
 
     def child(self, i: int, child_number: int) -> int:
-        d = self.d
-        second_to_last_child = d * i
+        d: int = self.d
+        second_to_last_child: int = d * i
         return second_to_last_child - (d - 1) + child_number
 
     def parent(self, i: int) -> int:
-        d = self.d
+        d: int = self.d
         return floor((i + d - 2) / d)
 
     def get_key(self, i: int) -> float:
         return self.heap[i]
 
-    def set_key(self, i: int, key: float):
+    def set_key(self, i: int, key: float) -> None:
         self.heap[i] = key
 
-    def exchange(self, i1: int, i2: int):
+    def exchange(self, i1: int, i2: int) -> None:
         self.heap[i1], self.heap[i2] = self.heap[i2], self.heap[i1]
 
-    def max_heapify(self, i: int):
-        d = self.d
-        largest = i
-        largest_key = self.get_key(i)
+    def max_heapify(self, i: int) -> None:
+        d: int = self.d
+        largest: int = i
+        largest_key: float = self.get_key(i)
         for child_number in range(1, d + 1):
-            child_index = self.child(i, child_number)
+            child_index: int = self.child(i, child_number)
             if child_index <= self.heap_size:
-                child_key = self.get_key(child_index)
+                child_key: float = self.get_key(child_index)
                 if child_key > largest_key:
                     largest = child_index
                     largest_key = child_key
@@ -57,21 +57,21 @@ class DAryHeap:
     def extract_max(self) -> float:
         if self.heap_size == 0:
             raise HeapUnderflowError()
-        max_key = self.heap[1]
+        max_key: float = self.heap[1]
         self.heap[1] = self.heap[self.heap_size]
         self.heap_size -= 1
         self.max_heapify(1)
         return max_key
 
-    def get_children(self, i):
-        possible_children_indices = [self.child(i, child_number) for child_number in range(1, self.d + 1)]
+    def get_children(self, i: int) -> List[int]:
+        possible_children_indices: List[int] = [self.child(i, child_number) for child_number in range(1, self.d + 1)]
         return [child_index for child_index in possible_children_indices if child_index <= self.heap_size]
 
-    def str_heap(self, i):
-        result = f"{self.get_key(i)}\n"
-        children_indices = self.get_children(i)
+    def str_heap(self, i: int) -> str:
+        result: str = f"{self.get_key(i)}\n"
+        children_indices: List[int] = self.get_children(i)
         for child_number, child_index in enumerate(children_indices, start=1):
-            nodes = self.str_heap(child_index).split("\n")
+            nodes: List[str] = self.str_heap(child_index).split("\n")
             for j, node in enumerate(nodes, start=1):
                 if child_number != len(children_indices) and j == 1:
                     result += f"├── {node}\n"
@@ -83,28 +83,28 @@ class DAryHeap:
                     result += f"    {node}\n"
         return result.strip()
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self.heap_size == 0:
             return "Heap is empty"
         return "Heap:\n" + self.str_heap(1)
 
-    def heap_increase_key(self, i, key):
-        current_key = self.get_key(i)
+    def heap_increase_key(self, i: int, key: float) -> None:
+        current_key: float = self.get_key(i)
         if key < current_key:
-            raise ValueError(f"New key {key} is smaller then current key {current_key}")
+            raise ValueError(f"New key {key} is smaller than current key {current_key}")
         self.set_key(i, key)
         while i > 1 and self.get_key(self.parent(i)) < self.get_key(i):
             self.exchange(i, self.parent(i))
             i = self.parent(i)
 
-    def insert(self, key):
+    def insert(self, key: float) -> None:
         if self.capacity < self.heap_size + 1:
             raise HeapOverflowError
         self.heap_size += 1
         self.set_key(self.heap_size, float('-inf'))
         self.heap_increase_key(self.heap_size, key)
 
-    def delete(self, index: int):
+    def delete(self, index: int) -> None:
         self.heap_increase_key(index, float('inf'))
         self.extract_max()
 
