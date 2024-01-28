@@ -40,16 +40,14 @@ class DAryHeap:
         self.heap[i1], self.heap[i2] = self.heap[i2], self.heap[i1]
 
     def max_heapify(self, i: int) -> None:
-        d: int = self.d
         largest: int = i
         largest_key: float = self.get_key(i)
-        for child_number in range(1, d + 1):
-            child_index: int = self.child(i, child_number)
-            if child_index <= self.heap_size:
-                child_key: float = self.get_key(child_index)
-                if child_key > largest_key:
-                    largest = child_index
-                    largest_key = child_key
+        children_indices: List[int] = self.get_children(i)
+        for child_index in children_indices:
+            child_key: float = self.get_key(child_index)
+            if child_key > largest_key:
+                largest = child_index
+                largest_key = child_key
         if largest != i:
             self.exchange(largest, i)
             self.max_heapify(largest)
@@ -108,20 +106,4 @@ class DAryHeap:
         self.heap_increase_key(index, float('inf'))
         self.extract_max()
 
-
-if __name__ == '__main__':
-    # h = DAryHeap(3, [3 * n for n in range(1, 10 + 1)])
-    # print(h)
-    # m = h.extract_max()
-    # print(f"m is: {m}")
-    # print(h)
-    # h.insert(28)
-    # print(h)
-    # h.insert(100)
-    # print(h)
-    random_float_array = [int(uniform(0, 100)) for _ in range(20)]
-    max_heap = DAryHeap(3, random_float_array)
-    print(max_heap)
-    max_heap.delete(5)
-    print(max_heap)
 
