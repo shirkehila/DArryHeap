@@ -22,7 +22,7 @@ The DAryHeap Python Implementation is an efficient d-ary heap data structure imp
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/DAryHeap-Python.git
+   git clone https://github.com/shirkehila/DArryHeap.git
 
 ### Running the CLI
 
