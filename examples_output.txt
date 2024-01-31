@@ -1,0 +1,111 @@
+/Users/shirkehila/PycharmProjects/d-ary-heap/venv/bin/python /Users/shirkehila/PycharmProjects/d-ary-heap/examples.py
+Original Heap:
+Heap:
+10.2
+├── 8.3
+│   ├── 1.8
+│   ├── 4.5
+│   └── 6.6
+├── 9.9
+│   ├── 3.7
+│   └── 2.4
+└── 5.1
+Extracted Maximum Key: 10.2
+Heap after extract_max:
+Heap:
+9.9
+├── 8.3
+│   ├── 1.8
+│   ├── 4.5
+│   └── 6.6
+├── 3.7
+│   └── 2.4
+└── 5.1
+Original Heap:
+Heap:
+12.6
+├── 11.2
+│   ├── 8.3
+│   │   ├── 6.9
+│   │   └── 5.7
+│   └── 9.4
+└── 10.1
+    ├── 7.8
+    └── 3.2
+Heap after heap_increase_key(4, 12.0):
+Heap:
+12.6
+├── 12.0
+│   ├── 11.2
+│   │   ├── 6.9
+│   │   └── 5.7
+│   └── 9.4
+└── 10.1
+    ├── 7.8
+    └── 3.2
+Original Heap:
+Heap:
+20.4
+├── 18.7
+│   ├── 7.1
+│   ├── 15.3
+│   ├── 10.6
+│   └── 13.9
+├── 14.8
+├── 8.2
+└── 11.5
+Heap after insert(15.2):
+Heap:
+20.4
+├── 18.7
+│   ├── 7.1
+│   ├── 15.3
+│   ├── 10.6
+│   └── 13.9
+├── 15.2
+│   └── 14.8
+├── 8.2
+└── 11.5
+Original Heap:
+Heap:
+15.2
+├── 12.9
+│   ├── 11.3
+│   │   ├── 8.7
+│   │   └── 7.5
+│   └── 10.6
+└── 14.4
+    ├── 5.3
+    └── 9.8
+Heap after delete(2):
+Heap:
+15.2
+├── 11.3
+│   ├── 8.7
+│   │   └── 7.5
+│   └── 10.6
+└── 14.4
+    ├── 5.3
+    └── 9.8
+Heap with d=1:
+Heap:
+15.6
+└── 12.1
+    └── 10.2
+        └── 9.8
+            └── 8.9
+                └── 7.5
+                    └── 6.7
+                        └── 5.3
+Extracted Maximum Key: 15.6
+Heap after extract_max:
+Heap:
+12.1
+└── 10.2
+    └── 9.8
+        └── 8.9
+            └── 7.5
+                └── 6.7
+                    └── 5.3
+
+Process finished with exit code 0
